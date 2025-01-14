@@ -1,0 +1,12 @@
+{
+  "name": "youtube-audio-url-api",
+  "version": "1.0.0",
+  "main": "api/get-audio.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "yt-dlp": "^1.0.0"
+  }
+}
