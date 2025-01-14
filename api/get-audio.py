@@ -1,12 +1,15 @@
 import instaloader
-from flask import jsonify
+import json
 
 def handler(request):
     # Extract the reel URL from the request
-    reel_url = request.args.get('url')  # You can pass the URL as a query parameter
+    reel_url = request.args.get('url')  # URL parameter passed in the query string
 
     if not reel_url:
-        return jsonify({"error": "No URL provided"}), 400
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"error": "No URL provided"})
+        }
 
     try:
         # Create an instaloader object
@@ -19,10 +22,18 @@ def handler(request):
         # Extract the video URL (MP4 link)
         if post.is_video:
             video_url = post.video_url  # This gives you the direct URL to the video
-            return jsonify({"video_url": video_url})
-
+            return {
+                "statusCode": 200,
+                "body": json.dumps({"video_url": video_url})
+            }
         else:
-            return jsonify({"error": "This is not a video post."}), 400
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"error": "This is not a video post."})
+            }
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"error": str(e)})
+        }
