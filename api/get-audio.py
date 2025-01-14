@@ -2,8 +2,8 @@ import instaloader
 import json
 
 def handler(request):
-    # Extract the reel URL from the request
-    reel_url = request.args.get('url')  # URL parameter passed in the query string
+    # Extract the URL parameter from the query string
+    reel_url = request.args.get('url')  # This gets the 'url' query parameter from the request
 
     if not reel_url:
         return {
@@ -21,7 +21,7 @@ def handler(request):
 
         # Extract the video URL (MP4 link)
         if post.is_video:
-            video_url = post.video_url  # This gives you the direct URL to the video
+            video_url = post.video_url  # This is the direct URL to the video
             return {
                 "statusCode": 200,
                 "body": json.dumps({"video_url": video_url})
@@ -33,6 +33,7 @@ def handler(request):
             }
 
     except Exception as e:
+        # Handle any errors and return them
         return {
             "statusCode": 500,
             "body": json.dumps({"error": str(e)})
