@@ -1,28 +1,28 @@
-import yt_dlp
-from flask import Flask, request, jsonify
+import instaloader
+from flask import jsonify
 
-# Initialize Flask app
-app = Flask(__name__)
+def handler(request):
+    # Extract the reel URL from the request
+    reel_url = request.args.get('url')  # You can pass the URL as a query parameter
 
-@app.route('/get-audio', methods=['GET'])
-def get_audio():
-    # Extract the YouTube video URL from the query parameters
-    video_url = request.args.get('url')
-    if not video_url:
-        return jsonify({"error": "YouTube URL is required."}), 400
+    if not reel_url:
+        return jsonify({"error": "No URL provided"}), 400
 
     try:
-        # Use yt-dlp to extract the direct audio URL
-        ydl_opts = {'format': 'bestaudio',
-                   'noplaylist': True,
-                   'geo_bypass': True,
-                   }
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(video_url, download=False)
-            audio_url = info['url']
-            return jsonify({"audioUrl": audio_url}), 200
+        # Create an instaloader object
+        L = instaloader.Instaloader()
+
+        # Get the post object from the reel URL
+        shortcode = reel_url.split("/")[-2]
+        post = instaloader.Post.from_shortcode(L.context, shortcode)
+
+        # Extract the video URL (MP4 link)
+        if post.is_video:
+            video_url = post.video_url  # This gives you the direct URL to the video
+            return jsonify({"video_url": video_url})
+
+        else:
+            return jsonify({"error": "This is not a video post."}), 400
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-# Export the Flask app to be used by Vercel
-app = app
