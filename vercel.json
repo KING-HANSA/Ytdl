@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/get-audio.js",
-      "use": "@vercel/node"
+      "src": "api/get-audio.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/get-audio",
-      "dest": "/api/get-audio.js"
+      "dest": "/api/get-audio.py"
     }
   ]
 }
