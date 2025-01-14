@@ -1,15 +1,9 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/get-audio.py",
-      "use": "@vercel/python"
+    "version": 2,
+    "functions": {
+        "api/instagram.py": {
+            "memory": 1024,
+            "maxDuration": 10
+        }
     }
-  ],
-  "routes": [
-    {
-      "src": "/get-audio",
-      "dest": "/api/get-audio.py"
-    }
-  ]
 }
