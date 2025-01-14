@@ -13,7 +13,10 @@ def get_audio():
 
     try:
         # Use yt-dlp to extract the direct audio URL
-        ydl_opts = {'format': 'bestaudio'}
+        ydl_opts = {'format': 'bestaudio',
+                   'noplaylist': True,
+                   'geo_bypass': True,
+                   }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
             audio_url = info['url']
