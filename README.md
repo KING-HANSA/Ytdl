@@ -42,8 +42,6 @@ Response Format
     "video_url": "https://scontent-xxx.cdninstagram.com/xxx.mp4"
 }
 
-Error Response
-
 
 ---
 
